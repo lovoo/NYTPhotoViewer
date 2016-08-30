@@ -158,6 +158,9 @@ static const CGFloat NYTPhotoDismissalInteractionControllerReturnToCenterVelocit
 #pragma mark - UIViewControllerInteractiveTransitioning
 
 - (void)startInteractiveTransition:(id <UIViewControllerContextTransitioning>)transitionContext {
+    UIView *toView = [transitionContext viewForKey:UITransitionContextToViewKey];
+    [transitionContext.containerView insertSubview:toView atIndex:0];
+    
     self.viewToHideWhenBeginningTransition.alpha = 0.0;
     
     self.transitionContext = transitionContext;
