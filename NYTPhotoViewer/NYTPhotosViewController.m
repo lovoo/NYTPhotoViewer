@@ -42,6 +42,7 @@ static const UIEdgeInsets NYTPhotosViewControllerCloseButtonImageInsets = {3, 0,
 @property (nonatomic) UITapGestureRecognizer *singleTapGestureRecognizer;
 
 @property (nonatomic) NYTPhotosOverlayView *overlayView;
+@property (nonatomic) CAGradientLayer *topGradientLayer;
 
 /// A custom notification center to scope internal notifications to this `NYTPhotosViewController` instance.
 @property (nonatomic) NSNotificationCenter *notificationCenter;
@@ -138,7 +139,18 @@ static const UIEdgeInsets NYTPhotosViewControllerCloseButtonImageInsets = {3, 0,
     [super viewWillLayoutSubviews];
     
     self.pageViewController.view.frame = self.view.bounds;
-    self.overlayView.frame = self.view.bounds;
+
+    CGRect overlayRect = self.view.bounds;
+    if (@available(iOS 11.0, *))
+    {
+        overlayRect = UIEdgeInsetsInsetRect(overlayRect, self.view.safeAreaInsets);
+    }
+    self.overlayView.frame = overlayRect;
+    
+    self.topGradientLayer.frame = ({
+        CGRect frame = CGRectMake(0, 0, self.view.bounds.size.width, self.overlayView.frame.origin.y + self.overlayView.navigationBar.frame.size.height);
+        frame;
+    });
 }
 
 - (BOOL)prefersStatusBarHidden {
@@ -215,6 +227,10 @@ static const UIEdgeInsets NYTPhotosViewControllerCloseButtonImageInsets = {3, 0,
 
 - (void)addOverlayView {
     NSAssert(self.overlayView != nil, @"_overlayView must be set during initialization, to provide bar button items for this %@", NSStringFromClass([self class]));
+
+    self.topGradientLayer = [CAGradientLayer layer];
+    self.topGradientLayer.colors = [NSArray arrayWithObjects:(id)[[UIColor blackColor] colorWithAlphaComponent:0.6].CGColor, (id)[UIColor clearColor].CGColor, nil];
+    [self.view.layer addSublayer:self.topGradientLayer];
 
     UIColor *textColor = self.view.tintColor ?: [UIColor whiteColor];
     self.overlayView.titleTextAttributes = @{NSForegroundColorAttributeName: textColor};
@@ -425,18 +441,25 @@ static const UIEdgeInsets NYTPhotosViewControllerCloseButtonImageInsets = {3, 0,
     
     if (animated) {
         self.overlayView.hidden = NO;
+        self.topGradientLayer.hidden = NO;
         
         self.overlayView.alpha = hidden ? 1.0 : 0.0;
+        self.topGradientLayer.opacity = hidden ? 1.0 : 0.0;
         
         [UIView animateWithDuration:NYTPhotosViewControllerOverlayAnimationDuration delay:0.0 options:UIViewAnimationOptionCurveEaseInOut | UIViewAnimationOptionAllowAnimatedContent | UIViewAnimationOptionAllowUserInteraction animations:^{
             self.overlayView.alpha = hidden ? 0.0 : 1.0;
+            self.topGradientLayer.opacity = hidden ? 0.0 : 1.0;
+            
         } completion:^(BOOL finished) {
             self.overlayView.alpha = 1.0;
             self.overlayView.hidden = hidden;
+            self.topGradientLayer.opacity = 1.0;
+            self.topGradientLayer.hidden = hidden;
         }];
     }
     else {
         self.overlayView.hidden = hidden;
+        self.topGradientLayer.hidden = hidden;
     }
 }
 
