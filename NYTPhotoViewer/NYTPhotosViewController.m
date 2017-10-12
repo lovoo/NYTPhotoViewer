@@ -148,7 +148,7 @@ static const UIEdgeInsets NYTPhotosViewControllerCloseButtonImageInsets = {3, 0,
     self.overlayView.frame = overlayRect;
     
     self.topGradientLayer.frame = ({
-        CGRect frame = CGRectMake(0, 0, self.view.bounds.size.width, self.overlayView.frame.origin.y + self.overlayView.navigationBar.frame.size.height);
+        CGRect frame = CGRectMake(0, 0, self.view.bounds.size.width, (self.overlayView.frame.origin.y + self.overlayView.navigationBar.frame.size.height) * 1.5);
         frame;
     });
 }
@@ -229,7 +229,7 @@ static const UIEdgeInsets NYTPhotosViewControllerCloseButtonImageInsets = {3, 0,
     NSAssert(self.overlayView != nil, @"_overlayView must be set during initialization, to provide bar button items for this %@", NSStringFromClass([self class]));
 
     self.topGradientLayer = [CAGradientLayer layer];
-    self.topGradientLayer.colors = [NSArray arrayWithObjects:(id)[[UIColor blackColor] colorWithAlphaComponent:0.6].CGColor, (id)[UIColor clearColor].CGColor, nil];
+    self.topGradientLayer.colors = [NSArray arrayWithObjects:(id)[[UIColor blackColor] colorWithAlphaComponent:0.4].CGColor, (id)[UIColor clearColor].CGColor, nil];
     [self.view.layer addSublayer:self.topGradientLayer];
 
     UIColor *textColor = self.view.tintColor ?: [UIColor whiteColor];
