@@ -2,7 +2,28 @@
 
 Changes for users of the library currently on `develop`:
 
-_This space intentionally left blank._
+## [3.0.1](https://github.com/nytimes/NYTPhotoViewer/releases/tag/3.0.1)
+
+Changes for users of the library in 3.0.1:
+
+- Fixed issue with beginAppearanceTransition being called on VCs with no parent VC
+
+## [3.0.0](https://github.com/nytimes/NYTPhotoViewer/releases/tag/3.0.0)
+
+Changes for users of the library in 3.0.0:
+
+- Unit test improvements
+- Interstitial view support + Swift sample
+- NSObject conformance for example app
+
+## [2.0.0](https://github.com/NYTimes/NYTPhotoViewer/releases/tag/2.0.0)
+
+Changes for users of the library in 2.0.0:
+
+- Expose a data-source-oriented API for PhotosViewController ([#226](https://github.com/NYTimes/NYTPhotoViewer/pull/226))
+    - A data source no longer has to handle out-of-bounds indexes ([#227](https://github.com/NYTimes/NYTPhotoViewer/pull/227))
+    - The data source is not retained ([#227](https://github.com/NYTimes/NYTPhotoViewer/pull/227))
+- Respect safe areas for iOS 11 support
 
 ## [1.2.0](https://github.com/NYTimes/NYTPhotoViewer/releases/tag/1.2.0)
 
