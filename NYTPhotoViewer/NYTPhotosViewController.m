@@ -43,6 +43,7 @@ static const UIEdgeInsets NYTPhotosViewControllerCloseButtonImageInsets = {3, 0,
 @property (nonatomic) UITapGestureRecognizer *singleTapGestureRecognizer;
 
 @property (nonatomic) NYTPhotosOverlayView *overlayView;
+@property (nonatomic) BOOL overlayWasHiddenBecauseOfInterstitialView;
 @property (nonatomic) CAGradientLayer *topGradientLayer;
 
 /// A custom notification center to scope internal notifications to this `NYTPhotosViewController` instance.
@@ -413,7 +414,10 @@ static const UIEdgeInsets NYTPhotosViewControllerCloseButtonImageInsets = {3, 0,
 #pragma mark - Gesture Recognizers
 
 - (void)didSingleTapWithGestureRecognizer:(UITapGestureRecognizer *)tapGestureRecognizer {
-    [self setOverlayViewHidden:!self.overlayView.hidden animated:YES];
+    // Disable the tap gesture for interstital views (because of ad visibility tracking)
+    if (self.currentlyDisplayedPhoto) {
+        [self setOverlayViewHidden:!self.overlayView.hidden animated:YES];
+    }
 }
 
 - (void)didPanWithGestureRecognizer:(UIPanGestureRecognizer *)panGestureRecognizer {
@@ -559,6 +563,11 @@ static const UIEdgeInsets NYTPhotosViewControllerCloseButtonImageInsets = {3, 0,
 }
 
 - (void)didNavigateToPhoto:(id <NYTPhoto>)photo atIndex:(NSUInteger)index {
+    if (self.overlayWasHiddenBecauseOfInterstitialView) {
+        [self setOverlayViewHidden:false animated:true];
+        self.overlayWasHiddenBecauseOfInterstitialView = false;
+    }
+
     if ([self.delegate respondsToSelector:@selector(photosViewController:didNavigateToPhoto:atIndex:)]) {
         [self.delegate photosViewController:self didNavigateToPhoto:photo atIndex:index];
     }
@@ -567,6 +576,12 @@ static const UIEdgeInsets NYTPhotosViewControllerCloseButtonImageInsets = {3, 0,
 }
 
 - (void)didNavigateToInterstitialView:(UIView *)view atIndex:(NSUInteger)index {
+    if (!self.overlayView.hidden) {
+        // Hide overlay for interstitial views (because of ad visibility tracking)
+        [self setOverlayViewHidden:true animated:true];
+        self.overlayWasHiddenBecauseOfInterstitialView = true;
+    }
+
     if ([self.delegate respondsToSelector:@selector(photosViewController:didNavigateToInterstialView:atIndex:)]) {
         [self.delegate photosViewController:self didNavigateToInterstialView:view atIndex:index];
     }
