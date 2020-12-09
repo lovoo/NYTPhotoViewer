@@ -2,6 +2,60 @@
 
 Changes for users of the library currently on `develop`:
 
+## [5.0.5](https://github.com/nytimes/NYTPhotoViewer/releases/tag/5.0.5)
+
+Changes for users of the library in 5.0.5:
+
+- Update PINRemoteImage to 3.0.1 for Xcode 12
+- Restored the ability to pull down via Carthage
+
+## [5.0.4 (broken)](https://github.com/nytimes/NYTPhotoViewer/releases/tag/5.0.4)
+
+- Broke the ability to pull down via Carthage or build this repo in Xcode!
+- Update PINRemoteImage to 3.0.1 for Xcode 12
+
+## [5.0.3](https://github.com/nytimes/NYTPhotoViewer/releases/tag/5.0.3)
+
+Changes for users of the library in 5.0.3:
+
+- Be more explicit with the PINRemoteImage dependency
+
+## [5.0.2](https://github.com/nytimes/NYTPhotoViewer/releases/tag/5.0.2)
+
+Changes for users of the library in 5.0.2:
+
+- Restore a method that was accidentally removed in 5.0.0. This prevented a long-tap gesture from displaying the 'Copy' menu.
+- Remove obsolete check for iOS 8.3.
+
+## [5.0.1](https://github.com/nytimes/NYTPhotoViewer/releases/tag/5.0.1)
+
+Changes for users of the library in 5.0.1:
+
+- bugfix: we weren't treating a nil interstitial correctly, so they weren't being skipped as intended.
+
+## [5.0.0](https://github.com/nytimes/NYTPhotoViewer/releases/tag/5.0.0)
+
+Changes for users of the library in 5.0.0:
+
+- Changed `NYTPhotosViewControllerDelegate` protocol  so that `- photosViewController:interstitialViewAtIndex:` can return nil.  If it does, that index is skipped and the following (or preceding) photo or interstitial view is displayed.
+
+## [4.0.1](https://github.com/nytimes/NYTPhotoViewer/releases/tag/4.0.1)
+
+Changes for users of the library in 4.0.1:
+
+- Removed `FLAnimatedImage` from .gitmodules.
+- Change `NYTPhotosViewController` to use fullscreen presentation by default, so it causes the presenting view to disappear behind it, i.e. to get `-viewWillDisappear:` and `-viewDidDisappear` called on it.
+- Fix unbalanced calls to begin/end appearance transitions.
+- Modified comment parameter in `NYTPhotosViewController` and `NYTPhotoViewerSinglePhotoDataSource` to match parameter in signature. Removes compilation warning.
+
+## [4.0.0](https://github.com/nytimes/NYTPhotoViewer/releases/tag/4.0.0)
+
+Changes for users of the library in 4.0.0:
+
+- Update deployment target to 9.0 from 8.0
+- Remove property `UIPopoverController *activityPopoverController` from `NYTPhotosViewController`
+- Replace use of `FLAnimatedImage` with `PINRemoteImage` (https://github.com/pinterest/PINRemoteImage) because `FLAnimatedImage` is no longer maintained and contains deprecated code.
+
 ## [3.0.1](https://github.com/nytimes/NYTPhotoViewer/releases/tag/3.0.1)
 
 Changes for users of the library in 3.0.1:

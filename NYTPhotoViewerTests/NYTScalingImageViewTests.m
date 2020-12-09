@@ -10,7 +10,8 @@
 @import XCTest;
 
 #import <NYTPhotoViewer/NYTScalingImageView.h>
-#import <FLAnimatedImage/FLAnimatedImage.h>
+#import <PINRemoteImage/PINRemoteImage.h>
+#import <PINRemoteImage/PINAnimatedImageView.h>
 
 @interface NYTScalingImageViewTests : XCTestCase
 
@@ -67,7 +68,7 @@
 - (void)testDataInitializationSetsImage {
     NYTScalingImageView *scalingImageView = [[NYTScalingImageView alloc] initWithImageData:self.imageData frame:CGRectZero];
 
-    XCTAssertEqual(self.imageData, ((FLAnimatedImageView *)scalingImageView.imageView).animatedImage.data);
+    XCTAssertEqual(self.imageData, ((PINAnimatedImageView *)scalingImageView.imageView).animatedImage.data);
 }
 
 - (void)testUpdateImageUpdatesImage {
@@ -84,13 +85,13 @@
     NYTScalingImageView *scalingImageView = [[NYTScalingImageView alloc] initWithImageData:self.imageData frame:CGRectZero];
     [scalingImageView updateImageData:image2];
 
-    XCTAssertEqual(image2, ((FLAnimatedImageView *)scalingImageView.imageView).animatedImage.data);
+    XCTAssertEqual(image2, ((PINAnimatedImageView *)scalingImageView.imageView).animatedImage.data);
 }
 
 - (void)testImageViewIsOfCorrectKindAfterInitialization {
     NYTScalingImageView *scalingImageViewer = [[NYTScalingImageView alloc] initWithImageData:self.imageData frame:CGRectZero];
 
-    XCTAssertTrue([scalingImageViewer.imageView isKindOfClass:FLAnimatedImageView.class]);
+    XCTAssertTrue([scalingImageViewer.imageView isKindOfClass:PINAnimatedImageView.class]);
 }
 
 @end
